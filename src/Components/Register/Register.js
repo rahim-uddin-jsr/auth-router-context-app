@@ -1,11 +1,13 @@
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/User-context/UserContext';
 
 
 const Register = () => {
     const { createUser, updateUserInfo } = useContext(AuthContext)
+
+    const navigate = useNavigate();
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -21,7 +23,7 @@ const Register = () => {
             updateUserInfo({ displayName: userName })
                 .then(() => {
                     alert('registration successful');
-
+                    navigate('/login')
                 }).catch(err => {
                     console.log(err);
                 })

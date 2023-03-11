@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/User-context/UserContext';
 
 const Login = () => {
     const { logInWithEmailPassword, setUser } = useContext(AuthContext)
-
+    const navigate = useNavigate()
     const handleSubmit = e => {
         e.preventDefault()
         const from = e.target;
@@ -13,13 +14,13 @@ const Login = () => {
             .then(userCredentials => {
                 setUser(userCredentials.user);
                 console.log(userCredentials.user.displayName);
+                navigate('/home')
             }).catch((err) => {
                 const errorCode = err.code;
                 const errorMessage = err.message;
                 console.log(err);
             });
         from.reset()
-
     }
     const handleRecoverPassword = e => { }
     return (
@@ -41,7 +42,7 @@ const Login = () => {
                             <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
-                            <input type="text" placeholder="password" name='password' className="input input-bordered" />
+                            <input type="password" placeholder="password" name='password' className="input input-bordered" />
                             <label className="label">
                                 <button onClick={handleRecoverPassword} href="#" className="btn-link label-text-alt link link-hover">Forgot password?</button>
                             </label>
