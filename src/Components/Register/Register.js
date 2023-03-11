@@ -1,12 +1,29 @@
-import React from 'react';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../contexts/User-context/UserContext';
+
 
 const Register = () => {
+    const { auth, user, setUser } = useContext(AuthContext)
+    // console.log(auth);
     const handleSubmit = e => {
         e.preventDefault()
         const from = e.target;
         const email = from.email.value;
         const password = from.password.value;
+        const userName = from.name.value;
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(userCredential => {
+                updateProfile(auth.currentUser, { displayName: userName })
+                    .then(() => {
+                        console.log(userCredential.user);
+                    }).catch(err => {
+                        console.log(err);
+                    })
+            }).catch(err => {
+                console.log(err);
+            })
 
     }
     return (
@@ -34,7 +51,7 @@ const Register = () => {
                             <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
-                            <input type="text" placeholder="password" name='password' className="input input-bordered" />
+                            <input type="password" placeholder="password" name='password' className="input input-bordered" />
                             <label className="label">
                                 <Link to='/login' className="btn-link label-text-alt link link-hover">Already Have an account?</Link>
                             </label>
