@@ -5,26 +5,30 @@ import { AuthContext } from '../../contexts/User-context/UserContext';
 
 
 const Register = () => {
-    const { auth, user, setUser } = useContext(AuthContext)
-    // console.log(auth);
+    const { createUser, updateUserInfo } = useContext(AuthContext)
+
     const handleSubmit = e => {
         e.preventDefault()
         const from = e.target;
         const email = from.email.value;
         const password = from.password.value;
         const userName = from.name.value;
-        createUserWithEmailAndPassword(auth, email, password)
-            .then(userCredential => {
-                updateProfile(auth.currentUser, { displayName: userName })
-                    .then(() => {
-                        console.log(userCredential.user);
-                    }).catch(err => {
-                        console.log(err);
-                    })
-            }).catch(err => {
-                console.log(err);
-            })
 
+
+        createUser(email, password, userName).then(userCredential => {
+            // updateProfile(auth.currentUser, { displayName: userName })
+
+            updateUserInfo({ displayName: userName })
+                .then(() => {
+                    alert('registration successful');
+
+                }).catch(err => {
+                    console.log(err);
+                })
+        }).catch(err => {
+            console.log(err);
+        })
+        from.reset()
     }
     return (
         <div className="hero min-h-screen bg-base-200">

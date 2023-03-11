@@ -4,10 +4,11 @@ import { AuthContext } from '../../contexts/User-context/UserContext';
 
 const Home = () => {
     const { user } = useContext(AuthContext)
-    console.log(user.displayName);
+
     return (
         <div>
-            <h2>This is Home</h2>
+            {user?.displayName ? <h2>Welcome {user?.displayName}</h2>
+                : <h2>Please Login First</h2>}
         </div>
     );
 };
