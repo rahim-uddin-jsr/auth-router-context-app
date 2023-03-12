@@ -7,14 +7,17 @@ const UserContext = ({ children }) => {
     const [user, setUser] = useState({})
     const [loading, setLoading] = useState(true)
     const createUser = (email, password) => {
+        setLoading(true)
         return createUserWithEmailAndPassword(auth, email, password)
     }
 
     const updateUserInfo = (infoToUpdate) => {
+        setLoading(true)
         return updateProfile(auth.currentUser, infoToUpdate)
     }
 
     const logInWithEmailPassword = (email, password) => {
+        setLoading(true)
         return signInWithEmailAndPassword(auth, email, password)
     }
     const logOut = () => {

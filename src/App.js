@@ -13,7 +13,10 @@ function App() {
       path: '/', element: <Main />,
       children: [
         {
-          path: '/home', element: <Home />
+          path: '/', element: <Home />
+        },
+        {
+          path: '/home', element: <PrivateRoute><Home /></PrivateRoute>
         },
         {
           path: '/about', element: <PrivateRoute><About /></PrivateRoute>

@@ -1,26 +1,26 @@
 import React, { useContext } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/User-context/UserContext';
 
 const Login = () => {
     const { logInWithEmailPassword, setUser } = useContext(AuthContext)
     const navigate = useNavigate()
+    const location = useLocation()
+    const from = location?.state?.from.pathname || '/';
     const handleSubmit = e => {
         e.preventDefault()
-        const from = e.target;
-        const email = from.email.value;
-        const password = from.password.value;
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
         logInWithEmailPassword(email, password)
             .then(userCredentials => {
                 setUser(userCredentials.user);
                 console.log(userCredentials.user.displayName);
-                navigate('/home')
+                navigate(from, { replace: true })
             }).catch((err) => {
-                const errorCode = err.code;
-                const errorMessage = err.message;
                 console.log(err);
             });
-        from.reset()
+        form.reset()
     }
     const handleRecoverPassword = e => { }
     return (
